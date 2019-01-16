@@ -57,7 +57,7 @@ model.fit(train_scaled, y_train)
 
 print("Accuracy on train data: ", round(model.score(train_scaled, y_train)*100, 2), "%")
 print("Accuracy on test data: ", round(model.score(test_scaled, y_test)*100, 2), "%")
-print(model.get_params().keys())
+
 gridParams = {
     'max_depth': np.arange(3, 20), 'min_samples_split': [2, 3, 4, 5], 'n_estimators': np.arange(1, 20)}
 

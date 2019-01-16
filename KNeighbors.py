@@ -4,6 +4,7 @@
 
 
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsRegressor
@@ -24,10 +25,9 @@ model = KNeighborsRegressor()
 model.fit(train_scaled, y_train)
 print("Accuracy on train data: ", round(model.score(train_scaled, y_train)*100, 2), "%")
 print("Accuracy on test data: ", round(model.score(test_scaled, y_test)*100, 2), "%")
-print("Best params: ", model.get_params())
 
 gridParams = {
-    'n_neighbors': [2, 3, 4, 5, 6, 7, 8, 9, 10, 15], 'leaf_size': [5, 15, 20, 30, 40],
+    'n_neighbors':  np.arange(2, 35), 'leaf_size': np.arange(2, 60),
     'p': [1, 2]}
 
 grid = GridSearchCV(model, gridParams,
