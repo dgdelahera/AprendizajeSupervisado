@@ -1,8 +1,6 @@
 
-## Source
-## https://nbviewer.jupyter.org/github/srnghn/ml_example_notebooks/blob/master/Predicting%20Yacht%20Resistance%20with%20Decision%20Trees%20%26%20Random%20Forests.ipynb
-
-
+# Source
+# https://nbviewer.jupyter.org/github/srnghn/ml_example_notebooks/blob/master/Predicting%20Yacht%20Resistance%20with%20Decision%20Trees%20%26%20Random%20Forests.ipynb
 
 import pandas as pd
 import numpy as np
@@ -11,13 +9,14 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GridSearchCV
-
+from sklearn.metrics import mean_absolute_error
 
 # Estas lineas ya las hemos visto en LinearRegression, por lo que no las comentare
-yacht = pd.read_csv("input/yacht_hydrodynamics.csv", names=["longitudinal_pos", "presmatic_coef", "length_disp", "beam-draught_rt",
-                                                           "length-beam_rt", "froude_num", "resid_resist"], sep=" ")
+yacht = pd.read_csv("input/yacht_hydrodynamics.csv", names=["longitudinal_pos", "presmatic_coef", "length_disp",
+                                                            "beam-draught_rt", "length-beam_rt", "froude_num",
+                                                            "resid_resist"], sep=" ")
 yacht = yacht.dropna()
-X = yacht.drop(["resid_resist"], axis=1)
+X = yacht.drop(["resid_resist", "longitudinal_pos", "length-beam_rt"], axis=1)
 y = yacht["resid_resist"]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
 scaler = StandardScaler()
@@ -49,7 +48,7 @@ model = DecisionTreeRegressor(**params)
 model.fit(train_scaled, y_train)
 print("Accuracy on train data: ", round(model.score(train_scaled, y_train)*100, 2), "%")
 print("Accuracy on test data with best param: ", round(model.score(test_scaled, y_test)*100, 2), "%")
-
+print("MAE: ", mean_absolute_error(y_test, model.predict(X_test)))
 # ________________________________RF___________________________________________________
 print("------------RF-------------------------------")
 model = RandomForestRegressor()
@@ -74,6 +73,7 @@ model = RandomForestRegressor(**params)
 model.fit(train_scaled, y_train)
 print("Accuracy on train data: ", round(model.score(train_scaled, y_train)*100, 2), "%")
 print("Accuracy on test data with best param: ", round(model.score(test_scaled, y_test)*100, 2), "%")
+print("MAE: ", mean_absolute_error(y_test, model.predict(X_test)))
 
 
 # El best_score con GridSearchCV es peor a la real porque se divide el train dataset en folds

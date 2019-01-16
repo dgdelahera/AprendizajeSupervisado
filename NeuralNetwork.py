@@ -42,4 +42,5 @@ earlystopping = EarlyStopping(monitor='val_mean_absolute_error',
 
 model.fit(X_train, y_train, batch_size=128, epochs=1000, validation_data=(X_test, y_test), callbacks=[earlystopping])
 
-# Peor que LinearRegressor. He probado con redes mas complejas y no mejora. Puede que sea debido a que hay pocos datos
+
+print("MAE: ", round(model.evaluate(X_test, y_test, batch_size=128)[1], 2))

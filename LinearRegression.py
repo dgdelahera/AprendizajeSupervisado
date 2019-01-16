@@ -14,8 +14,9 @@ from math import sqrt
 
 
 # Leemos el dataset pasandole el nombre de las cloumnas
-yacht = pd.read_csv("input/yacht_hydrodynamics.csv", names=["longitudinal_pos", "presmatic_coef", "length_disp", "beam-draught_rt",
-                                                           "length-beam_rt", "froude_num", "resid_resist"], sep=" ")
+yacht = pd.read_csv("input/yacht_hydrodynamics.csv", names=["longitudinal_pos", "presmatic_coef", "length_disp",
+                                                            "beam-draught_rt", "length-beam_rt", "froude_num",
+                                                            "resid_resist"], sep=" ")
 
 # Estos print los vamos descomentando para ir lo que va saliendo, pero se comentan para no tener demasiada info en la consola
 # print(yacht.head())
