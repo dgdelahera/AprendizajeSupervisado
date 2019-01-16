@@ -1,18 +1,17 @@
-## Source
-## https://nbviewer.jupyter.org/github/srnghn/ml_example_notebooks/blob/master/Predicting%20Yacht%20Resistance%20with%20K%20Nearest%20Neighbors.ipynb
-
-
+# Source
+# https://nbviewer.jupyter.org/github/srnghn/ml_example_notebooks/blob/master/Predicting%20Yacht%20Resistance%20with%20K%20Nearest%20Neighbors.ipynb
 
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import GridSearchCV
 
 # Estas lineas ya las hemos visto en LinearRegression, por lo que no las comentare
-yacht = pd.read_csv("input/yacht_hydrodynamics.csv", names=["longitudinal_pos", "presmatic_coef", "length_disp", "beam-draught_rt",
-                                                           "length-beam_rt", "froude_num", "resid_resist"], sep=" ")
+yacht = pd.read_csv("input/yacht_hydrodynamics.csv", names=["longitudinal_pos", "presmatic_coef", "length_disp",
+                                                            "beam-draught_rt", "length-beam_rt", "froude_num",
+                                                            "resid_resist"], sep=" ")
 
 # Sustituir NaN con media, mediona o moda es peor que quitar los Nan
 yacht = yacht.dropna()
@@ -78,6 +77,3 @@ print("Accuracy on test data with best param: ", round(model.score(test_scaled, 
 #               Parametro de Minkowski metric. 1=Distancia Manhattan, 2 Distancia Euclidean
 #       ~metric (default: minkowski)
 #               Metria usada para el arbol
-
-
-
