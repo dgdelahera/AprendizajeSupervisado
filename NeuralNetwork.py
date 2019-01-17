@@ -5,8 +5,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from keras.models import Sequential
 from sklearn.preprocessing import MinMaxScaler
-from keras.layers import Dense
-from keras.callbacks import EarlyStopping
+from keras.layers import Dense, Dropout
+
 
 # Estas lineas ya las hemos visto en LinearRegression, por lo que no las comentare
 yacht = pd.read_csv("input/yacht_hydrodynamics.csv", names=["longitudinal_pos", "presmatic_coef", "length_disp",
@@ -36,11 +36,7 @@ model.add(Dense(9, activation='relu'))
 model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mae'])
 
-earlystopping = EarlyStopping(monitor='val_mean_absolute_error',
-                              patience=5,
-                              verbose=1, mode='auto')
 
-model.fit(train_scaled, y_train, batch_size=128, epochs=1000, validation_data=(test_scaled, y_test), callbacks=[earlystopping])
-
+history = model.fit(train_scaled, y_train, batch_size=32, epochs=1500, validation_data=(test_scaled, y_test))
 
 print("MAE: ", round(model.evaluate(test_scaled, y_test, batch_size=128)[1], 2))
