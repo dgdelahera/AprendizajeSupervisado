@@ -2,6 +2,7 @@
 # https://nbviewer.jupyter.org/github/srnghn/ml_example_notebooks/blob/master/Predicting%20Yacht%20Resistance%20with%20K%20Nearest%20Neighbors.ipynb
 
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.ensemble import AdaBoostRegressor
@@ -39,15 +40,16 @@ train_scaled = scaler.fit_transform(X_train)
 test_scaled = scaler.transform(X_test)
 
 
-model = AdaBoostRegressor(RandomForestRegressor())
+model = AdaBoostRegressor(base_estimator=RandomForestRegressor())
 model.fit(train_scaled, y_train)
 
 print("Accuracy on train data: ", round(model.score(train_scaled, y_train)*100, 2), "%")
 print("Accuracy on test data: ", round(model.score(test_scaled, y_test)*100, 2), "%")
-
-#TODO: Se puede mejorar el Grid
+print("Parameters: ", model.get_params())
+print("MAE: ", mean_absolute_error(y_test, model.predict(test_scaled)))
+# TODO: Se puede mejorar el Grid
 gridParams = {
-     "n_estimators": [1, 10, 50, 100, 200, 300, 400, 500, 600]}
+     "n_estimators": [200], 'base_estimator__n_estimators': np.arange(1, 20)}
 
 grid = GridSearchCV(model, gridParams,
                     verbose=1,
@@ -64,7 +66,17 @@ model.fit(train_scaled, y_train)
 
 print("Accuracy on train data: ", round(model.score(train_scaled, y_train)*100, 2), "%")
 print("Accuracy on test data with best param: ", round(model.score(test_scaled, y_test)*100, 2), "%")
-print("MAE: ", mean_absolute_error(y_test, model.predict(X_test)))
+print("MAE: ", mean_absolute_error(y_test, model.predict(test_scaled)))
 
 
-# TODO: Meter parámetros
+# AdaBoostRegressor:
+#       ~base_estimator(default: None)
+#               Estimador sobre el que se construye el boosted ensemble
+#       ~n_estimators(default: 50)
+#               Numero de estimadores donde termina el boosteo
+#       ~learning_rate (default: 1.)
+#               Hace referencia a la contribucción de cada estimador
+#       ~loss (default: linear)
+#               Error para actualizar los pesos despues de cada iteración linear | sqare | exponential
+#       ~random_state (default: None)
+#               Seed usada

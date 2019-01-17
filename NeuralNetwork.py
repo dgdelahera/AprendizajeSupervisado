@@ -31,7 +31,7 @@ test_scaled = scaler.transform(X_test)
 
 
 model = Sequential()
-model.add(Dense(X_train.shape[1], input_dim=X_train.shape[1], activation='relu'))
+model.add(Dense(train_scaled.shape[1], input_dim=train_scaled.shape[1], activation='relu'))
 model.add(Dense(9, activation='relu'))
 model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mae'])
@@ -40,7 +40,7 @@ earlystopping = EarlyStopping(monitor='val_mean_absolute_error',
                               patience=5,
                               verbose=1, mode='auto')
 
-model.fit(X_train, y_train, batch_size=128, epochs=1000, validation_data=(X_test, y_test), callbacks=[earlystopping])
+model.fit(train_scaled, y_train, batch_size=128, epochs=1000, validation_data=(test_scaled, y_test), callbacks=[earlystopping])
 
 
-print("MAE: ", round(model.evaluate(X_test, y_test, batch_size=128)[1], 2))
+print("MAE: ", round(model.evaluate(test_scaled, y_test, batch_size=128)[1], 2))

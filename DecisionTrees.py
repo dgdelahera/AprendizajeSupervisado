@@ -28,16 +28,16 @@ test_scaled = scaler.transform(X_test)
 model = DecisionTreeRegressor()
 model.fit(train_scaled, y_train)
 
-print("------------DF-------------------------------")
+print("------------DT-------------------------------")
 print("Accuracy on train data: ", round(model.score(train_scaled, y_train)*100, 2), "%")
 print("Accuracy on test data: ", round(model.score(test_scaled, y_test)*100, 2), "%")
-print(model.get_params().keys())
+
 gridParams = {
-    'max_depth': np.arange(3, 20), 'min_samples_split': [2, 3, 4, 5]}
+    'max_depth': np.arange(3, 30)}
 
 grid = GridSearchCV(model, gridParams,
                     verbose=1,
-                    cv=5)
+                    cv=2)
 grid.fit(train_scaled, y_train)
 print("Best params:", grid.best_params_)
 print("\nBest score:", grid.best_score_)
@@ -48,7 +48,7 @@ model = DecisionTreeRegressor(**params)
 model.fit(train_scaled, y_train)
 print("Accuracy on train data: ", round(model.score(train_scaled, y_train)*100, 2), "%")
 print("Accuracy on test data with best param: ", round(model.score(test_scaled, y_test)*100, 2), "%")
-print("MAE: ", mean_absolute_error(y_test, model.predict(X_test)))
+print("MAE: ", mean_absolute_error(y_test, model.predict(test_scaled)))
 # ________________________________RF___________________________________________________
 print("------------RF-------------------------------")
 model = RandomForestRegressor()
@@ -56,13 +56,15 @@ model.fit(train_scaled, y_train)
 
 print("Accuracy on train data: ", round(model.score(train_scaled, y_train)*100, 2), "%")
 print("Accuracy on test data: ", round(model.score(test_scaled, y_test)*100, 2), "%")
+print("MAE: ", mean_absolute_error(y_test, model.predict(test_scaled)))
+
 
 gridParams = {
-    'max_depth': np.arange(3, 20), 'min_samples_split': [2, 3, 4, 5], 'n_estimators': np.arange(1, 20)}
+    'max_depth': np.arange(3, 30), 'n_estimators': np.arange(1, 50)}
 
 grid = GridSearchCV(model, gridParams,
                     verbose=1,
-                    cv=5)
+                    cv=2)
 grid.fit(train_scaled, y_train)
 print("Best params:", grid.best_params_)
 print("\nBest score:", grid.best_score_)
@@ -73,7 +75,7 @@ model = RandomForestRegressor(**params)
 model.fit(train_scaled, y_train)
 print("Accuracy on train data: ", round(model.score(train_scaled, y_train)*100, 2), "%")
 print("Accuracy on test data with best param: ", round(model.score(test_scaled, y_test)*100, 2), "%")
-print("MAE: ", mean_absolute_error(y_test, model.predict(X_test)))
+print("MAE: ", mean_absolute_error(y_test, model.predict(test_scaled)))
 
 
 # El best_score con GridSearchCV es peor a la real porque se divide el train dataset en folds

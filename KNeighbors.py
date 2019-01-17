@@ -45,8 +45,7 @@ print("Accuracy on train data: ", round(model.score(train_scaled, y_train)*100, 
 print("Accuracy on test data: ", round(model.score(test_scaled, y_test)*100, 2), "%")
 
 gridParams = {
-     'n_neighbors':  np.arange(2, 35), 'leaf_size': np.arange(2, 60),
-     'p': [1, 2]}
+     'n_neighbors':  np.arange(2, 35), 'leaf_size': np.arange(2, 60)}
 
 grid = GridSearchCV(model, gridParams,
                     verbose=1,
@@ -63,7 +62,7 @@ model.fit(train_scaled, y_train)
 
 print("Accuracy on train data: ", round(model.score(train_scaled, y_train)*100, 2), "%")
 print("Accuracy on test data with best param: ", round(model.score(test_scaled, y_test)*100, 2), "%")
-print("MAE: ", mean_absolute_error(y_test, model.predict(X_test)))
+print("MAE: ", mean_absolute_error(y_test, model.predict(test_scaled)))
 
 # Mejora a LR pero no mejora a DT
 # Vamos a ver algunos de los parámetros
